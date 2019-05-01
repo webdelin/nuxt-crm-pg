@@ -1,7 +1,7 @@
 const { Strategy, ExtractJwt } = require('passport-jwt')
 const { Sequelize } = require('sequelize')
 const keys = require('../keys')
-const { User } = require('../models/user.model')
+const User = require('../models/user.model')
 
 //Auth: Bearer
 const options = {

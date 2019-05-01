@@ -17,19 +17,26 @@ const Post = sequelize.define('posts',
 			unique: true
 		},
 		text: {
-			type: Sequelize.STRING,
+			type: Sequelize.TEXT,
 			allowNull: true
 		},
-		image: {
+		image_src: {
 			type: Sequelize.STRING
+		},
+		views: {
+			type: Sequelize.INTEGER,
+			defaultValue: 0
+		},
+		comments: {
+			type: Sequelize.ARRAY(Sequelize.TEXT)
 		}
 	},
 	{
 		schema: 'public'
 	}
 )
-User.sync({
-	force: true
+Post.sync({
+	//force: true
 })
 module.exports = {
 	sequelize,
