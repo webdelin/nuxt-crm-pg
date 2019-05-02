@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const User = require('../models/user.model')
+const {User} = require('../models/user.model')
 const keys = require('../keys')
 
-module.exports.login = async function (req, res) {
+module.exports.login = async (req, res) => {
 	const candidate = await User.findOne(
 		{
 			where: {
@@ -34,7 +34,8 @@ module.exports.login = async function (req, res) {
 		})
 	}
 }
-module.exports.create = async function (req, res) {
+
+module.exports.createUser = async (req, res) => {
 
 	const candidate = await User.findOne(
 		{
@@ -49,14 +50,14 @@ module.exports.create = async function (req, res) {
 	} else {
 		try {
 			const salt = bcrypt.genSaltSync(10)
-			const password = req.body.password
 			const user = await User.create({
 				email: req.body.email,
-				password: bcrypt.hashSync(password, salt)
+				password: bcrypt.hashSync(req.body.password, salt)
 			})
 			res.status(201).json(user)
 		} catch (e) {
-			errorHandler(res, e)
+			// User not Found
+			res.status(404).json(e)
 		}
 	}
 

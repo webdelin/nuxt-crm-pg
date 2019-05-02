@@ -9,9 +9,8 @@ const commentRoutes = require('./routes/comment.routes')
 const keys = require('./keys')
 const app = express()
 
-const sequelize = new Sequelize(keys.PGSQL_URI)
-sequelize
-	.authenticate()
+const db = new Sequelize(keys.PGSQL_URI)
+	db.authenticate()
 	.then(() => {
 		console.log('Connection PGSQL_URI successfully.')
 	})

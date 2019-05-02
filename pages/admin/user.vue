@@ -58,7 +58,7 @@ export default {
             email: this.email,
             password: this.password
           };
-          await this.$store.dispatch("auth/createUser", formData);
+          await this.$store.dispatch("auth/create", formData);
           this.msg = "New User created";
           this.snackbar = true;
           this.password = "";

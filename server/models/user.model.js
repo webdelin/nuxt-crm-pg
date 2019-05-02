@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const keys = require('../keys')
-const sequelize = new Sequelize(keys.PGSQL_URI)
+const db = new Sequelize(keys.PGSQL_URI)
 
-const User = sequelize.define('users',
+const User = db.define('users',
 	{
 		id: {
 			type: Sequelize.UUID,
@@ -22,20 +22,15 @@ const User = sequelize.define('users',
 		},
 		password: {
 			type: Sequelize.STRING,
-			allowNull: false,
-			validate: {
-				notEmpty: true
-			}
+			allowNull: false
 		}
 	},
 	{
 		schema: 'public'
 	}
 )
-User.sync({
-	//force: true
-})
+User.sync()
 module.exports = {
-	sequelize,
+	db,
 	User
 }
