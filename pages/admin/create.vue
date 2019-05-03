@@ -49,6 +49,7 @@
                     <v-container grid-list-md>
                       <v-layout wrap>
                         <div :key="this.text">
+                          <img :src="this.imageSrc" height="100">
                           <vue-markdown>{{this.text}}</vue-markdown>
                         </div>
                       </v-layout>
@@ -144,20 +145,22 @@ export default {
     async onSubmit() {
       if (this.$refs.form.validate() && this.image) {
         this.loading = true;
+        const formData = {
+          title: this.title,
+          text: this.text,
+          image: this.image
+        };
+        console.log(formData);
         try {
-          const formData = {
-            title: this.title,
-            text: this.text,
-            image: this.image
-          };
-          console.log(formData);
           await this.$store.dispatch("post/createPost", formData);
-          this.loading = false;
           (this.title = ""),
             (this.text = ""),
             (this.image = ""),
             (this.imageSrc = "");
+          this.msg = "New Post created";
+          this.snackbar = true;
         } catch (e) {
+        } finally {
           this.loading = false;
         }
       }

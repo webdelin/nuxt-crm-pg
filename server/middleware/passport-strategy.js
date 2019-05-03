@@ -1,6 +1,6 @@
 const { Strategy, ExtractJwt } = require('passport-jwt')
 const keys = require('../keys')
-const User = require('../models/user.model')
+const { User } = require('../models/user.model')
 
 //Auth: Bearer
 const options = {
@@ -23,7 +23,7 @@ module.exports = new Strategy(options, async (payload, done) => {
 			done(null, false)
 		}
 	} catch (e) {
-		errorHandler(res, e)
+		console.error(e)
 	}
 
 })

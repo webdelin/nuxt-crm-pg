@@ -1,15 +1,13 @@
-const {Post} = require('../models/post.model')
+const { Post } = require('../models/post.model')
 
 module.exports.createPost = async (req, res) => {
-	console.log("Create Post");
-	Post.create({
-		title: req.params.title,
-		text: req.params.text,
-		image_src: `/${req.file.filename}`
-	})
 	try {
-		await post.save()
-		res.status(201).json({ post })
+		Post.create({
+			title: req.body.title,
+			text: req.body.text,
+			image: `/${req.file.filename}`
+		})
+		res.status(201).json(Post)
 	} catch (e) {
 		res.status(500).json(e)
 	}

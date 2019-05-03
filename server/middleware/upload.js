@@ -4,12 +4,13 @@ const moment = require('moment')
 
 const storage = multer.diskStorage({
 	destination(req, file, cb) {
-		cb(null, path.resolve(__dirname, '../../storage'))
+		cb(null, path.resolve(__dirname, '../..', 'static'))
 	},
 	filename(req, file, cb) {
-		cb(null, `${file.originalname}-${moment().format('DDMMYYYY-HHmmss_SSS')}`)
+		cb(null, `${moment().format('DDMMYYYY-HHmmss_SSS')}-${file.originalname}`)
 	}
 })
+
 const fileFilter = (req, file, cb) => {
 	if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
 		cb(null, true)
@@ -19,5 +20,5 @@ const fileFilter = (req, file, cb) => {
 }
 
 module.exports = multer({
-	storage, fileFilter, limits: { fileSize: 1024 * 1024 }
+	storage, fileFilter, limits: { fileSize: 1024 * 1024 * 5 }
 })

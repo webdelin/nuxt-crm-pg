@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-snackbar :timeout="4000" top color="primary" v-model="snackbar">
+    <v-snackbar :timeout="4000" top :color="color" v-model="snackbar">
       {{msg}}
       <v-btn @click="snackbar=false" dark>Close</v-btn>
     </v-snackbar>
@@ -32,6 +32,7 @@ export default {
     return {
       msg: "",
       snackbar: false,
+      color: "info",
       title: "Nuxt-CRM",
       itemsNav: [
         {
@@ -59,22 +60,38 @@ export default {
       case "login":
         this.msg = "Plase loggin";
         this.snackbar = true;
+        this.color = "info";
         break;
       case "logout":
         this.msg = "Logout Success!";
         this.snackbar = true;
+        this.color = "success";
+        break;
+      case "session":
+        this.msg = "Login expired nitte log in again";
+        this.snackbar = true;
+        this.color = "warning";
         break;
     }
   },
   computed: {
     error() {
       return this.$store.getters.error;
+    },
+    message() {
+      return this.$store.getters.message;
     }
   },
   watch: {
     error(value) {
       this.msg = value;
       this.snackbar = true;
+      this.color = "error";
+    },
+    message(value) {
+      this.msg = value;
+      this.snackbar = true;
+      this.color = "success";
     }
   }
 };

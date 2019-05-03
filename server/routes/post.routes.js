@@ -11,19 +11,18 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	upload.single('image'),
 	ctr.createPost
-
-)
-router.put(
-	'/admin/:id',
-	passport.authenticate('jwt', { session: false }),
-	ctr.updatePost
-
 )
 router.get(
 	'/admin/',
 	passport.authenticate('jwt', { session: false }),
 	ctr.getAllPost
 
+)
+router.put(
+	'/admin/:id',
+	passport.authenticate('jwt', { session: false }),
+	upload.single('image'),
+	ctr.updatePost
 )
 router.get(
 	'/admin/:id',

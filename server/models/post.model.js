@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const keys = require('../keys')
-const sequelize = new Sequelize(keys.PGSQL_URI)
+const db = new Sequelize(keys.PGSQL_URI)
 
-const Post = sequelize.define('posts',
+const Post = db.define('posts',
 	{
 		id: {
 			type: Sequelize.UUID,
@@ -20,25 +20,23 @@ const Post = sequelize.define('posts',
 			type: Sequelize.TEXT,
 			allowNull: true
 		},
-		image_src: {
+		image: {
 			type: Sequelize.STRING
 		},
 		views: {
 			type: Sequelize.INTEGER,
 			defaultValue: 0
-		},
-		comments: {
-			type: Sequelize.ARRAY(Sequelize.TEXT)
 		}
 	},
 	{
 		schema: 'public'
 	}
 )
-Post.sync({
-	//force: true
-})
+Post.sync()
+// Post.sync({
+// 	force: true
+// })
 module.exports = {
-	sequelize,
+	db,
 	Post
 }
