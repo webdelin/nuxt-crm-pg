@@ -54,24 +54,26 @@ export default {
     };
   },
   mounted() {
-    const { message } = this.$route.query;
+    if (this.$route.query) {
+      const { message } = this.$route.query;
 
-    switch (message) {
-      case "login":
-        this.msg = "Plase loggin";
-        this.snackbar = true;
-        this.color = "info";
-        break;
-      case "logout":
-        this.msg = "Logout Success!";
-        this.snackbar = true;
-        this.color = "success";
-        break;
-      case "session":
-        this.msg = "Login expired nitte log in again";
-        this.snackbar = true;
-        this.color = "warning";
-        break;
+      switch (message) {
+        case "login":
+          this.msg = "Plase loggin";
+          this.snackbar = true;
+          this.color = "info";
+          break;
+        case "logout":
+          this.msg = "Logout Success!";
+          this.snackbar = true;
+          this.color = "success";
+          break;
+        case "session":
+          this.msg = "Login expired nitte log in again";
+          this.snackbar = true;
+          this.color = "warning";
+          break;
+      }
     }
   },
   computed: {

@@ -8,7 +8,7 @@
     <v-data-table :headers="headers" :items="posts" :search="search">
       <template v-slot:items="props">
         <td>
-          <img width="60" :src="'/storage' + props.item.image" :title="`${props.item.title}`">
+          <img width="60" :src="getPic(props.item.image || no_image)">
         </td>
         <td>{{ props.item.title }}</td>
 
@@ -46,6 +46,7 @@ export default {
         month: "long",
         day: "numeric"
       },
+      no_image: "/no_image.png",
       search: "",
       headers: [
         {
@@ -72,6 +73,9 @@ export default {
   methods: {
     async editItem(id) {
       this.$router.push(`/admin/post/${id}`);
+    },
+    getPic(image) {
+      return require("@/storage" + image);
     },
     async deleteItem(id) {
       try {

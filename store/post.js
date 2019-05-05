@@ -19,6 +19,7 @@ export const actions = {
 	},
 	async deleteItem({ commit }, id) {
 		try {
+			await commit('setMessage', 'Post deleted', { root: true })
 			return await this.$axios.$delete(`/api/post/admin/${id}`)
 		} catch (e) {
 			commit('setError', e, { root: true })

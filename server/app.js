@@ -10,7 +10,7 @@ const keys = require('./keys')
 const app = express()
 
 const db = new Sequelize(keys.PGSQL_URI)
-	db.authenticate()
+db.authenticate()
 	.then(() => {
 		console.log('Connection PGSQL_URI successfully.')
 	})

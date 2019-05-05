@@ -26,6 +26,14 @@ const Post = db.define('posts',
 		views: {
 			type: Sequelize.INTEGER,
 			defaultValue: 0
+		},
+		comments: {
+			type: Sequelize.ARRAY(Sequelize.TEXT)
+		},
+		active: {
+			type: Sequelize.BOOLEAN,
+			allowNull: false,
+			defaultValue: false
 		}
 	},
 	{
