@@ -7,23 +7,31 @@ const posts = [
 	{ title: 'Post 5', date: new Date(), views: 302, comments: [1, 2, 3, 4, 5, 6, 7, 8, 9], id: 'id6' }
 ]
 export const actions = {
-	async fetchAdmin({ }) {
-		return await new Promise(resolve => {
-			setTimeout(() => {
-				resolve(posts)
-			}, 1000)
-		})
+
+	async fetchAdmin({ commit }) {
+		try {
+			return await this.$axios.$get('/api/post/admin')
+		} catch (e) {
+			commit('setError', e, { root: true })
+			throw e
+		}
+
 	},
-	async deleteItem({ }, id) {
-		console.log('Post deleted')
+	async deleteItem({ commit }, id) {
+		try {
+			return await this.$axios.$delete(`/api/post/admin/${id}`)
+		} catch (e) {
+			commit('setError', e, { root: true })
+			throw e
+		}
 	},
-	async updatePost({ }, { id, title, text }) {
-		return await new Promise(resolve => {
-			setTimeout(() => {
-				resolve(posts.find(p => p.id === id))
-				console.log('Post Updated')
-			}, 1000)
-		})
+	async updatePost({ commit }, { id, text, image }) {
+		try {
+			return await this.$axios.$put(`/api/post/admin/${id}`, { text })
+		} catch (e) {
+			commit('setError', e, { root: true })
+			throw e
+		}
 	},
 
 	async createPost({ commit }, { title, text, image }) {
@@ -33,18 +41,18 @@ export const actions = {
 			fd.append('title', title)
 			fd.append('text', text)
 			fd.append('image', image, image.name)
-
 			return await this.$axios.$post('/api/post/admin', fd)
 		} catch (e) {
 			commit('setError', e, { root: true })
 			throw e
 		}
 	},
-	async fetchAdminById({ }, id) {
-		return await new Promise(resolve => {
-			setTimeout(() => {
-				resolve(posts.find(p => p.id === id))
-			}, 1000)
-		})
+	async fetchAdminById({ commit }, id) {
+		try {
+			return await this.$axios.$get(`/api/post/admin/${id}`)
+		} catch (e) {
+			commit('setError', e, { root: true })
+			throw e
+		}
 	}
 }

@@ -7,17 +7,19 @@
     </v-card-title>
     <v-data-table :headers="headers" :items="posts" :search="search">
       <template v-slot:items="props">
+        <td>
+          <img width="60" :src="'/storage' + props.item.image" :title="`${props.item.title}`">
+        </td>
         <td>{{ props.item.title }}</td>
 
-        <td>{{ new Date(props.item.date).toLocaleString('de-DE', dateDetail) }}</td>
+        <td>{{ new Date(props.item.createdAt).toLocaleString('de-DE', dateDetail) }}</td>
         <td>{{ props.item.views }}</td>
-        <td>{{ props.item.comments.length }}</td>
+        <td>{{ props.item.comments }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item.id)">edit</v-icon>
           <v-icon small @click="deleteItem(props.item.id)">delete</v-icon>
         </td>
       </template>
-      console.log(posts)
       <template v-slot:no-results>
         <v-alert
           :value="true"
@@ -46,6 +48,13 @@ export default {
       },
       search: "",
       headers: [
+        {
+          text: "Bild",
+          align: "left",
+          sortable: false,
+          prop: "image",
+          value: "image"
+        },
         {
           text: "Name",
           align: "left",

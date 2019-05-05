@@ -5,7 +5,8 @@
         <v-icon>chevron_right</v-icon>
       </template>
     </v-breadcrumbs>
-    <h1>{{ post.title }} - {{ post.id }}</h1>
+    <p>{{ post.title }}</p>
+		<p>ID: {{ post.id }}</p>
     <v-container>
       <v-layout>
         <v-flex>
@@ -14,7 +15,7 @@
               <v-form v-model="valid" ref="form" validation>
 								<v-textarea
 									name="text"
-									label="Outline textarea"
+									label="Posttext"
 									value=""
 									type="textarea"
 									v-model="text"
@@ -65,7 +66,10 @@ export default {
         }
       ]
     };
-  },
+	},
+	mounted(){
+		this.text = this.post.text
+	},
   methods: {
     async onSubmit() {
       if (this.$refs.form.validate()) {

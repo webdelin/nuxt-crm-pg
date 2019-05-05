@@ -21,7 +21,6 @@ router.get(
 router.put(
 	'/admin/:id',
 	passport.authenticate('jwt', { session: false }),
-	upload.single('image'),
 	ctr.updatePost
 )
 router.get(
