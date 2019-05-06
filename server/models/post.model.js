@@ -26,9 +26,16 @@ const Post = db.define('posts',
 		views: {
 			type: Sequelize.INTEGER,
 			defaultValue: 0
-		},
+		},  
 		comments: {
-			type: Sequelize.ARRAY(Sequelize.TEXT)
+			type: Sequelize.ARRAY({
+				type: Sequelize.UUID,
+				references: {
+					model: 'comments',
+					key: 'id',
+					deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
+				}
+			})
 		},
 		active: {
 			type: Sequelize.BOOLEAN,
@@ -41,8 +48,8 @@ const Post = db.define('posts',
 	}
 )
 Post.sync()
-// Post.sync({
-// 	force: true
+//Post.sync({
+//	force: true
 // })
 module.exports = {
 	db,

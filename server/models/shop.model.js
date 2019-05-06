@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const keys = require('../keys')
 const db = new Sequelize(keys.PGSQL_URI)
 
-const Comment = db.define('comments',
+const Shop = db.define('shops',
 	{
 		id: {
 			type: Sequelize.UUID,
@@ -16,43 +16,31 @@ const Comment = db.define('comments',
 			allowNull: false,
 			unique: false
 		},
-		text: {
+		description: {
 			type: Sequelize.TEXT,
 			allowNull: true
 		},
-		post_id: {
-			type: Sequelize.UUID,
-			defaultValue: Sequelize.UUIDV4,
-			references: {
-				model: 'posts',
-				key:   'id'
-			}
+		affili_shop_id: {
+			type: Sequelize.STRING,
+			allowNull: true
 		},
 		ean: {
 			type: Sequelize.STRING,
 			allowNull: true
 		},
-		like: {
-			type: Sequelize.INTEGER,
-			defaultValue: 0
-		},
-		rating: {
-			type: Sequelize.DECIMAL(0,0)
-		},
-		active: {
-			type: Sequelize.BOOLEAN,
-			defaultValue: false
+		affili_link: {
+			type: Sequelize.TEXT,
+			allowNull: false
 		}
 	},
 	{
 		schema: 'public'
 	}
 )
-Comment.sync()
-//Comment.sync({
-//	force: true
-//})
+Shop.sync({
+	force: true
+})
 module.exports = {
 	db,
-	Comment
+	Shop
 }

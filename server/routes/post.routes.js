@@ -15,7 +15,7 @@ router.post(
 router.get(
 	'/admin/',
 	passport.authenticate('jwt', { session: false }),
-	ctr.getAllPost
+	ctr.getAdminAllPost
 
 )
 router.put(

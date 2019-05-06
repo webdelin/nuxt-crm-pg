@@ -36,6 +36,15 @@ module.exports.updatePost = async (req, res) => {
 		.catch((error) => res.status(500).send(error))
 }
 
+module.exports.getAdminAllPost = async (req, res) => {
+	try {
+		const posts = await Post.findAll({ order: [['createdAt', 'DESC']] })
+		res.status(201).json(posts)
+	} catch (e) {
+		res.status(500).json(e)
+	}
+}
+
 module.exports.getAllPost = async (req, res) => {
 	try {
 		const posts = await Post.findAll({ order: [['createdAt', 'DESC']] })
