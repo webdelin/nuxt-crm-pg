@@ -30,7 +30,8 @@ export const actions = {
 	},
 	async updatePost({ commit }, { id, text, image }) {
 		try {
-			return await this.$axios.$put(`/api/post/admin/${id}`, { text })
+			await this.$axios.$put(`/api/post/admin/${id}`, { text })
+			return commit('setMessage', 'Post Updated', { root: true })
 		} catch (e) {
 			commit('setError', e, { root: true })
 			throw e
@@ -40,11 +41,11 @@ export const actions = {
 	async createPost({ commit }, { title, text, image }) {
 		try {
 			const fd = new FormData()
-
 			fd.append('title', title)
 			fd.append('text', text)
 			fd.append('image', image, image.name)
-			return await this.$axios.$post('/api/post/admin', fd)
+			await this.$axios.$post('/api/post/admin', fd)
+			return commit('setMessage', 'Post Created', { root: true })
 		} catch (e) {
 			commit('setError', e, { root: true })
 			throw e
@@ -61,6 +62,16 @@ export const actions = {
 	async fetchById({ commit }, id) {
 		try {
 			return await this.$axios.$get(`/api/post/${id}`)
+		} catch (e) {
+			commit('setError', e, { root: true })
+			throw e
+		}
+	},
+
+	async addView({ commit }, { views, id }) {
+		try {
+			return await this.$axios.$put(`/api/post/add/view/${id}`, { views })
+
 		} catch (e) {
 			commit('setError', e, { root: true })
 			throw e

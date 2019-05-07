@@ -1,60 +1,54 @@
 <template>
-<div>
+  <div>
     <v-breadcrumbs :items="itemsCrumb">
       <template v-slot:divider>
         <v-icon>chevron_right</v-icon>
       </template>
     </v-breadcrumbs>
-  <v-layout row>
-    <v-flex xs12 sm12>
-      <v-card>
-        <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-          height="200px"
-        >
-        </v-img>
+    <v-layout row>
+      <v-flex xs12 sm12>
+        <v-card>
+          <img width="200px" :src="getPic(post.image || no_image)">
+          <v-card-title primary-title>
+            <div>
+              <div class="headline">{{ post.title }}</div>
+              <span class="grey--text">{{ post.views }}</span>
+              <span class="grey--text">Comments {{ post.comments }}</span>
+            </div>
+          </v-card-title>
+          <app-comment-form v-if="canAddComment" @created="createComentHandler" :post_id="post.id"/>
 
-        <v-card-title primary-title>
-          <div>
-            <div class="headline">{{ post.title }}</div>
-            <span class="grey--text">{{ post.id }}</span>
-          </div>
-        </v-card-title>
-
-        <v-card-actions>
-          <v-btn flat>Share</v-btn>
-          <v-btn flat color="purple">Explore</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn>
-        </v-card-actions>
-
-        <v-slide-y-transition>
-          <v-card-text v-show="show">{{ post.id }}</v-card-text>
-        </v-slide-y-transition>
-      </v-card>
-    </v-flex>
-  </v-layout>
-	</div>
+          <app-comments v-for="comment in post.comments" :key="comment.id" :comment="comment"/>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </div>
 </template>
 
-
-
 <script>
+import AppCommentForm from "@/components/main/CommentForm";
+import AppComments from "@/components/main/Comments";
 export default {
   head() {
     return {
       title: `Post | ${this.post.title}`
     };
   },
+
+  validate({ params }) {
+    return Boolean(params.id);
+  },
   async asyncData({ store, params }) {
     const post = await store.dispatch("post/fetchById", params.id);
-    return { post };
+    await store.dispatch("post/addView", post);
+    return {
+      post: { ...post, views: ++post.views }
+    };
   },
   data() {
     return {
-
+      canAddComment: true,
+      no_image: "/no_image.png",
       show: true,
       text: "",
       valid: false,
@@ -73,6 +67,16 @@ export default {
         }
       ]
     };
-	}
+  },
+  methods: {
+    getPic(image) {
+      return require("@/storage" + image);
+    },
+    createComentHandler(comment) {
+      //this.post.comments.unshift(comment);
+      this.canAddComment = false;
+    }
+  },
+  components: { AppCommentForm, AppComments }
 };
 </script>

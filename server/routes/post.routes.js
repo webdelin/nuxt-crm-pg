@@ -40,7 +40,7 @@ router.delete(
 // /api/post
 router.get('/', ctr.getAllPost)
 router.get('/:id', ctr.getByIdPost)
-router.put('/:id', ctr.addViewPost)
+router.put('/add/view/:id', ctr.addViewPost)
 
 
 module.exports = router

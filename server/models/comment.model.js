@@ -21,12 +21,7 @@ const Comment = db.define('comments',
 			allowNull: true
 		},
 		post_id: {
-			type: Sequelize.UUID,
-			defaultValue: Sequelize.UUIDV4,
-			references: {
-				model: 'posts',
-				key:   'id'
-			}
+			type: Sequelize.TEXT
 		},
 		ean: {
 			type: Sequelize.STRING,
@@ -37,11 +32,17 @@ const Comment = db.define('comments',
 			defaultValue: 0
 		},
 		rating: {
-			type: Sequelize.DECIMAL(0,0)
+			type: Sequelize.DECIMAL(0, 0)
 		},
 		active: {
 			type: Sequelize.BOOLEAN,
 			defaultValue: false
+		}
+	}, {
+		classMethods: {
+			associate: function (models) {
+				Comment.belongsTo(Post, { foreignKey: 'post_id', as: 'posts' });
+			}
 		}
 	},
 	{
@@ -49,9 +50,9 @@ const Comment = db.define('comments',
 	}
 )
 Comment.sync()
-//Comment.sync({
-//	force: true
-//})
+// Comment.sync({
+// 	force: true
+// })
 module.exports = {
 	db,
 	Comment

@@ -91,28 +91,24 @@ module.exports.deletePost = async (req, res) => {
 		.catch((error) => res.status(500).send(error))
 }
 module.exports.addViewPost = async (req, res) => {
-	const postName = await Post.findOne(
-		{
-			where: {
-				id: req.params.id
+	return Post.findOne({
+		where: {
+			id: req.params.id
+		}
+	})
+		.then(post => {
+			if (!post) {
+				return res.status(404).send({
+					message: 'Post Not Found',
+				});
 			}
+			return post
+				.update({
+					views: ++req.body.views
+				})
+				.then(() => res.status(200).send(post))
+				.catch((error) => res.status(500).send(error))
 		})
-	if (postName) {
-		const updated = {
-			views: ++req.body.views
-		}
-		try {
-			const post = await Post.update({
-				$set: updated,
-				new: true
-			})
-			res.status(200).json(post)
-		} catch (e) {
-			res.status(500).json(e)
-		}
-	} else {
-		res.status(409).json({
-			message: 'Post dont no exist'
-		})
-	}
+		.catch((error) => res.status(500).send(error))
+
 }

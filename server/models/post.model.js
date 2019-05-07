@@ -26,15 +26,10 @@ const Post = db.define('posts',
 		views: {
 			type: Sequelize.INTEGER,
 			defaultValue: 0
-		},  
+		},
 		comments: {
 			type: Sequelize.ARRAY({
-				type: Sequelize.UUID,
-				references: {
-					model: 'comments',
-					key: 'id',
-					deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-				}
+				type: Sequelize.TEXT
 			})
 		},
 		active: {
@@ -42,14 +37,20 @@ const Post = db.define('posts',
 			allowNull: false,
 			defaultValue: false
 		}
+	}, {
+		classMethods: {
+			associate: function (models) {
+				Post.hasMany(models.Comment, { as: "comments" });
+			}
+		}
 	},
 	{
 		schema: 'public'
 	}
 )
 Post.sync()
-//Post.sync({
-//	force: true
+// Post.sync({
+// 	force: true
 // })
 module.exports = {
 	db,
