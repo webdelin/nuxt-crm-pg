@@ -1,10 +1,13 @@
 const fs = require('fs')
-const { Post } = require('../models/post.model')
+const db = require('../keys/db.config')
+
+const Post = db.post
 
 module.exports.createPost = async (req, res) => {
 	try {
 		Post.create({
 			title: req.body.title,
+			user_id: req.params.id,
 			text: req.body.text,
 			image: `/${req.file.filename}`
 		})

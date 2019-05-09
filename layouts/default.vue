@@ -9,7 +9,7 @@
       <v-spacer/>
 
       <v-toolbar-items>
-        <v-btn v-for="item of itemsNav" :key="itemsNav.title" flat>{{ item.title }}</v-btn>
+        <v-btn v-for="item of itemsNav" :key="item.title" flat>{{ item.title }}</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

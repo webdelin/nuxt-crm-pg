@@ -16,10 +16,7 @@ async function start() {
 	} else {
 		await nuxt.ready()
 	}
-	//db.sequelize.sync({force: true}).then(() => {
-	//  console.log('Drop and Resync with { force: true }');
-	//  initial();
-	//});
+
 	app.use(nuxt.render)
 
 	app.listen(port, host, () => {
@@ -29,4 +26,5 @@ async function start() {
 		})
 	})
 }
+
 start()

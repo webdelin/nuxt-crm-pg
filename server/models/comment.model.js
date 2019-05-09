@@ -1,27 +1,25 @@
-const Sequelize = require('sequelize')
-const keys = require('../keys')
-const db = new Sequelize(keys.PGSQL_URI)
-
-const Comment = db.define('comments',
+module.exports = (sequelize, Sequelize) => {
+const Comment = sequelize.define('comments',
 	{
-		id: {
+    id: {
 			type: Sequelize.UUID,
 			defaultValue: Sequelize.UUIDV4,
 			primaryKey: true,
 			unique: true,
 			allowNull: false
-		},
+    },
+    post_id: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
+      allowNull: false
+    },
 		title: {
 			type: Sequelize.STRING,
-			allowNull: false,
-			unique: false
+			allowNull: false
 		},
 		text: {
 			type: Sequelize.TEXT,
-			allowNull: true
-		},
-		post_id: {
-			type: Sequelize.TEXT
+			allowNull: false
 		},
 		ean: {
 			type: Sequelize.STRING,
@@ -34,26 +32,11 @@ const Comment = db.define('comments',
 		rating: {
 			type: Sequelize.DECIMAL(0, 0)
 		},
-		active: {
-			type: Sequelize.BOOLEAN,
-			defaultValue: false
-		}
-	}, {
-		classMethods: {
-			associate: function (models) {
-				Comment.belongsTo(Post, { foreignKey: 'post_id', as: 'posts' });
-			}
-		}
-	},
-	{
-		schema: 'public'
-	}
-)
-Comment.sync()
-// Comment.sync({
-// 	force: true
-// })
-module.exports = {
-	db,
-	Comment
+    status: {
+      type: Sequelize.ENUM,
+      values: ['approved', 'rejected', 'review']
+    }
+  })
+
+  return Comment
 }

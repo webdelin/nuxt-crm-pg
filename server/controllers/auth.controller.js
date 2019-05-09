@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {User} = require('../models/user.model')
+const db = require('../keys/db.config')
 const keys = require('../keys')
+const User = db.user
+const Role = db.role
 
 module.exports.login = async (req, res) => {
 	const candidate = await User.findOne(
@@ -51,8 +53,10 @@ module.exports.createUser = async (req, res) => {
 		try {
 			const salt = bcrypt.genSaltSync(10)
 			const user = await User.create({
+				username: req.body.username,
 				email: req.body.email,
-				password: bcrypt.hashSync(req.body.password, salt)
+				password: bcrypt.hashSync(req.body.password, salt),
+				role: req.body.role,
 			})
 			res.status(201).json(user)
 		} catch (e) {

@@ -1,5 +1,6 @@
-const { Comment } = require('../models/comment.model')
-const { Post } = require('../models/post.model')
+const db = require('../keys/db.config')
+
+const Comment = db.comment
 
 module.exports.createComment = async (req, res) => {
 

@@ -1,8 +1,5 @@
-const Sequelize = require('sequelize')
-const keys = require('../keys')
-const db = new Sequelize(keys.PGSQL_URI)
-
-const Post = db.define('posts',
+module.exports = (sequelize, Sequelize) => {
+const Post = sequelize.define('posts',
 	{
 		id: {
 			type: Sequelize.UUID,
@@ -27,32 +24,18 @@ const Post = db.define('posts',
 			type: Sequelize.INTEGER,
 			defaultValue: 0
 		},
-		comments: {
-			type: Sequelize.ARRAY({
-				type: Sequelize.TEXT
-			})
-		},
+    user_id: {
+      type: Sequelize.UUID,
+      allowNull: false
+    },
+    status: {
+      type: Sequelize.ENUM,
+      values: ['readed', 'in_check', 'checked', 'disabled']
+    },
 		active: {
 			type: Sequelize.BOOLEAN,
-			allowNull: false,
 			defaultValue: false
 		}
-	}, {
-		classMethods: {
-			associate: function (models) {
-				Post.hasMany(models.Comment, { as: "comments" });
-			}
-		}
-	},
-	{
-		schema: 'public'
-	}
-)
-Post.sync()
-// Post.sync({
-// 	force: true
-// })
-module.exports = {
-	db,
-	Post
+  })
+  return Post
 }

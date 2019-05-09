@@ -1,6 +1,7 @@
 const { Strategy, ExtractJwt } = require('passport-jwt')
 const keys = require('../keys')
-const { User } = require('../models/user.model')
+const db = require('../keys/db.config')
+const User = db.user
 
 //Auth: Bearer
 const options = {

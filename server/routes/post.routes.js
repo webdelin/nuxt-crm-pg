@@ -8,30 +8,25 @@ const router = Router()
 // /api/post/admin
 router.post(
 	'/admin/',
-	passport.authenticate('jwt', { session: false }),
 	upload.single('image'),
 	ctr.createPost
 )
 router.get(
 	'/admin/',
-	passport.authenticate('jwt', { session: false }),
 	ctr.getAdminAllPost
 
 )
 router.put(
 	'/admin/:id',
-	passport.authenticate('jwt', { session: false }),
 	ctr.updatePost
 )
 router.get(
 	'/admin/:id',
-	passport.authenticate('jwt', { session: false }),
 	ctr.getByIdPost
 
 )
 router.delete(
 	'/admin/:id',
-	passport.authenticate('jwt', { session: false }),
 	ctr.deletePost
 
 )
