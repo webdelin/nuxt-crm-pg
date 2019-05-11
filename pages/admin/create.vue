@@ -128,14 +128,14 @@ export default {
 
   watch: {
     dialog(val) {
-      val || this.close()
+      val || this.close();
     }
   },
   methods: {
     close() {
-      this.dialog = false
+      this.dialog = false;
       setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       }, 300);
     },
@@ -144,20 +144,20 @@ export default {
     },
     async onSubmit() {
       if (this.$refs.form.validate() && this.image) {
-        this.loading = true
+        this.loading = true;
         const formData = {
           title: this.title,
           text: this.text,
           image: this.image
         };
-        console.log(formData)
         try {
-          await this.$store.dispatch("post/createPost", formData)
-          (this.title = ""),
+          await this.$store.dispatch("post/createPost", formData)(
+            (this.title = "")
+          ),
             (this.text = ""),
             (this.image = ""),
-            (this.imageSrc = "")
-          this.msg = "New Post created"
+            (this.imageSrc = "");
+          this.msg = "New Post created";
           this.snackbar = true;
         } catch (e) {
         } finally {
@@ -166,16 +166,16 @@ export default {
       }
     },
     triggerUpload() {
-      this.$refs.fileInput.click()
+      this.$refs.fileInput.click();
     },
     onFileChange(event) {
-      const file = event.target.files[0]
-      const reader = new FileReader()
+      const file = event.target.files[0];
+      const reader = new FileReader();
       reader.onload = e => {
-        this.imageSrc = reader.result
+        this.imageSrc = reader.result;
       };
-      reader.readAsDataURL(file)
-      this.image = file
+      reader.readAsDataURL(file);
+      this.image = file;
     }
   }
 };

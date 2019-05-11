@@ -10,14 +10,13 @@ const options = {
 }
 
 module.exports = new Strategy(options, async (payload, done) => {
-
+	const candidate = await User.findOne(
+		{
+			where: {
+				id: payload.userId
+			}
+		})
 	try {
-		const candidate = await User.findOne(
-			{
-				where: {
-					id: payload.userId
-				}
-			})
 		if (candidate) {
 			done(null, candidate)
 		} else {
@@ -27,4 +26,5 @@ module.exports = new Strategy(options, async (payload, done) => {
 		console.error(e)
 	}
 
+	return req.session.userId = candidate.id
 })

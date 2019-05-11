@@ -20,14 +20,14 @@ module.exports.login = async (req, res) => {
 				const token = jwt.sign({
 					email: candidate.email,
 					userId: candidate.id
-				}, keys.JWT, { expiresIn: 60 * 60 })
+				}, keys.JWT, { expiresIn: 60 * 60 * 2 })
 				res.status(200).json({ token })
 			} catch (e) {
 				res.status(500).json(e)
 			}
 
 		} else {
-			res.status(404).json({ message: 'Check Login' })
+			res.status(404).json({ message: 'Check Login Auth Cont' })
 		}
 	} else {
 		// User not Found
@@ -56,7 +56,7 @@ module.exports.createUser = async (req, res) => {
 				username: req.body.username,
 				email: req.body.email,
 				password: bcrypt.hashSync(req.body.password, salt),
-				role: req.body.role,
+				role: 'user'//req.body.role,
 			})
 			res.status(201).json(user)
 		} catch (e) {

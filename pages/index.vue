@@ -18,9 +18,11 @@
                   <v-card-title primary-title>
                     <div>
                       <div class="headline" v-text="card.title"></div>
-                      <div v-text="card.text"></div>
+                      <div>{{card.text}}</div>
                       <div>{{ new Date(card.createdAt).toLocaleString('de-DE', dateDetail) }}</div>
-                      <div v-text="card.views"></div>
+                      <div>Ansichten: {{card.views}}</div>
+                      <div>user_id: {{card.user_id}}</div>
+                      <div>card id: {{card.id}}</div>
                     </div>
                   </v-card-title>
                 </v-flex>

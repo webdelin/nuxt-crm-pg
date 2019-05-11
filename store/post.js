@@ -38,11 +38,12 @@ export const actions = {
 		}
 	},
 
-	async createPost({ commit }, { title, text, image }) {
+	async createPost({ commit }, { title, text, image, user_id }) {
 		try {
 			const fd = new FormData()
 			fd.append('title', title)
 			fd.append('text', text)
+			fd.append('user_id', user_id)
 			fd.append('image', image, image.name)
 			await this.$axios.$post('/api/post/admin', fd)
 			return commit('setMessage', 'Post Created', { root: true })

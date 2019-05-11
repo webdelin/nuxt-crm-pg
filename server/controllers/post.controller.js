@@ -1,16 +1,22 @@
 const fs = require('fs')
 const db = require('../keys/db.config')
+const jwtDecode = require('jwt-decode')
 
 const Post = db.post
 
 module.exports.createPost = async (req, res) => {
+	//bekomme user id
+	const token = req.headers.authorization
+	const jwtData = jwtDecode(token)
+
 	try {
 		Post.create({
 			title: req.body.title,
-			user_id: req.params.id,
 			text: req.body.text,
-			image: `/${req.file.filename}`
+			image: `/${req.file.filename}`,
+			user_id: jwtData.userId
 		})
+
 		res.status(201).json(Post)
 	} catch (e) {
 		res.status(500).json(e)
@@ -82,14 +88,16 @@ module.exports.deletePost = async (req, res) => {
 				});
 			}
 
-			fs.unlink('./storage' + post.image, function (err) {
-				if (err) {
-					return res.status(404).send(err).json({
-						message: 'cannot delete image'
-					})
-				}
-				return post.destroy()
-			})
+			if (post.image) {
+				fs.unlink('./storage' + post.image, (err) => {
+					if (err) {
+						return res.status(404).send(err).json({
+							message: 'cannot delete image'
+						})
+					}
+				})
+			}
+			return post.destroy()
 		})
 		.catch((error) => res.status(500).send(error))
 }
