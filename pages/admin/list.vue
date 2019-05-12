@@ -84,7 +84,7 @@
 
         <td>{{ new Date(props.item.createdAt).toLocaleString('de-DE', dateDetail) }}</td>
         <td>{{ props.item.views }}</td>
-        <td>{{ props.item.comments }}</td>
+        <td>{{ props.item.comment }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item.id)">edit</v-icon>
           <v-icon small @click="deleteItem(props.item.id)">delete</v-icon>

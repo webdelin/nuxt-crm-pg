@@ -170,12 +170,12 @@ export default {
           text: "Username",
           align: "left",
           sortable: false,
-          prop: "title",
-          value: "title"
+          prop: "username",
+          value: "username"
         },
         { text: "Register", value: "date", prop: "date" },
-        { text: "Role", value: "views", prop: "views" },
-        { text: "Email", value: "comments", prop: "comments" },
+        { text: "Role", value: "role", prop: "role" },
+        { text: "Email", value: "email", prop: "email" },
         { sortable: false, text: "Actions" }
       ]
     };
@@ -220,7 +220,7 @@ export default {
             role: this.select.role
           };
           console.log(this.$refs.form);
-          await this.$store.dispatch("user/createUser", formData);
+          await this.$store.dispatch("user/create", formData);
           this.msg = "New User created";
           this.snackbar = true;
           this.username = "";

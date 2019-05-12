@@ -2,7 +2,7 @@ export const actions = {
 
 	async create({ commit }, formData) {
 		try {
-			await this.$axios.$post('/api/auth/admin/create', formData)
+			await this.$axios.$post('/api/user/admin/create', formData)
 			commit('setMessage', 'User Created', { root: true })
 		} catch (e) {
 			commit('setError', e, { root: true })
@@ -55,7 +55,7 @@ export const actions = {
 					username: req.body.username,
 					email: req.body.email,
 					password: bcrypt.hashSync(req.body.password, salt),
-					role: 'user'//req.body.role,
+					role: req.body.role,
 				})
 				res.status(201).json(user)
 			} catch (e) {
