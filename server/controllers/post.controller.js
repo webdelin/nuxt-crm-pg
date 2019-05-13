@@ -10,14 +10,14 @@ module.exports.createPost = async (req, res) => {
 	const jwtData = jwtDecode(token)
 
 	try {
-		Post.create({
+		const post = await Post.create({
 			title: req.body.title,
 			text: req.body.text,
 			image: `/${req.file.filename}`,
 			user_id: jwtData.userId
 		})
 
-		res.status(201).json(Post)
+		res.status(201).json(post)
 	} catch (e) {
 		res.status(500).json(e)
 	}
@@ -76,7 +76,7 @@ module.exports.getByIdPost = async (req, res) => {
 	}
 }
 module.exports.deletePost = async (req, res) => {
-	return Post.findOne({
+	const post = await Post.findOne({
 		where: {
 			id: req.params.id
 		}

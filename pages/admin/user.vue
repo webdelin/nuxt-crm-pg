@@ -62,7 +62,7 @@
                 ></v-select>
               </v-flex>
               <v-card-actions>
-                <v-btn color="blue" dark @click="close">Cancel</v-btn>
+                <v-btn color="blue" dark @click="close">Close</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn @click="onSubmit" :loading="loading" :disabled="!valid">Create User</v-btn>
               </v-card-actions>
@@ -220,7 +220,7 @@ export default {
             role: this.select.role
           };
           console.log(this.$refs.form);
-          await this.$store.dispatch("user/create", formData);
+          await this.$store.dispatch("user/createUser", formData);
           this.msg = "New User created";
           this.snackbar = true;
           this.username = "";

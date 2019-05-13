@@ -1,10 +1,10 @@
 const fs = require('fs')
 const db = require('../keys/db.config')
-
+const bcrypt = require('bcrypt')
 const User = db.user
 
 module.exports.createUser = async (req, res) => {
-
+	//console.log('SELECT: ' + req.body.role)
 	const candidate = await User.findOne(
 		{
 			where: {
@@ -20,10 +20,9 @@ module.exports.createUser = async (req, res) => {
 			const salt = bcrypt.genSaltSync(10)
 			const user = await User.create({
 				username: req.body.username,
-				image: `/${req.file.filename}`,
 				email: req.body.email,
 				password: bcrypt.hashSync(req.body.password, salt),
-				role: 'USER'//req.body.role,
+				role: req.body.role
 			})
 			res.status(201).json(user)
 		} catch (e) {
@@ -31,7 +30,6 @@ module.exports.createUser = async (req, res) => {
 			res.status(404).json(e)
 		}
 	}
-
 }
 
 module.exports.updateUser = async (req, res) => {
@@ -43,14 +41,17 @@ module.exports.updateUser = async (req, res) => {
 		.then(user => {
 			if (!user) {
 				return res.status(404).send({
-					message: 'Post Not Found',
+					message: 'User Not Found',
 				});
 			}
 			return user
 				.update({
-					text: req.body.text || post.text
+					username: req.body.username || user.username,
+					email: req.body.email || user.email,
+					password: bcrypt.hashSync(req.body.password, salt) || user.password,
+					role: req.body.role || user.role
 				})
-				.then(() => res.status(200).send(post))
+				.then(() => res.status(200).send(user))
 				.catch((error) => res.status(500).send(error))
 		})
 		.catch((error) => res.status(500).send(error))
@@ -98,15 +99,17 @@ module.exports.deleteUser = async (req, res) => {
 					message: 'User Not Found',
 				});
 			}
+			if (user.image) {
+				fs.unlink('./storage/users' + user.image, (err) => {
+					if (err) {
+						return res.status(404).send(err).json({
+							message: 'cannot delete image'
+						})
+					}
+				})
 
-			fs.unlink('./storage/users' + user.image, (err) => {
-				if (err) {
-					return res.status(404).send(err).json({
-						message: 'cannot delete image'
-					})
-				}
-				return user.destroy()
-			})
+			}
+			return user.destroy()
 		})
 		.catch((error) => res.status(500).send(error))
 }

@@ -1,9 +1,8 @@
 export const actions = {
 
-	async create({ commit }, formData) {
+	async createUser({ commit }, formData) {
 		try {
-			await this.$axios.$post('/api/user/admin/create', formData)
-			commit('setMessage', 'User Created', { root: true })
+			return await this.$axios.$post('/api/user/admin/createUser', formData)
 		} catch (e) {
 			commit('setError', e, { root: true })
 			throw e
@@ -34,34 +33,6 @@ export const actions = {
 		} catch (e) {
 			commit('setError', e, { root: true })
 			throw e
-		}
-	},
-
-	async createUser({ commit }, data) {
-		const candidate = await User.findOne(
-			{
-				where: {
-					email: req.body.email
-				}
-			})
-		if (candidate) {
-			res.status(409).json({
-				message: 'User exist'
-			})
-		} else {
-			try {
-				const salt = bcrypt.genSaltSync(10)
-				const user = await User.create({
-					username: req.body.username,
-					email: req.body.email,
-					password: bcrypt.hashSync(req.body.password, salt),
-					role: req.body.role,
-				})
-				res.status(201).json(user)
-			} catch (e) {
-				// User not Found
-				res.status(404).json(e)
-			}
 		}
 	},
 	async fetchAdminById({ commit }, id) {

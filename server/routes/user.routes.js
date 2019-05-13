@@ -7,7 +7,7 @@ const router = Router()
 // Admin
 // /api/post/admin
 router.post(
-	'/admin/',
+	'/admin/createUser',
 	upload.single('image'),
 	ctr.createUser
 )
