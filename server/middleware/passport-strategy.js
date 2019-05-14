@@ -26,5 +26,4 @@ module.exports = new Strategy(options, async (payload, done) => {
 		console.error(e)
 	}
 
-	return req.session.userId = candidate.id
 })

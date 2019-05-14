@@ -5,7 +5,7 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 //'universal': Isomorphic application(server - side rendering + client - side navigation)
 
 module.exports = {
-	mode: 'spa',
+	mode: 'universal',
   /*
   ** Headers of the page
   */

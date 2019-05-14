@@ -1,6 +1,4 @@
 module.exports = {
 	PGSQL_URI: `postgres://postgres:test@localhost:5432/nuxtdb`,
-	JWT: 'dev-jwt-key',
-	'secret': 'grokonez-super-secret-key',
-	ROLEs: ['USER', 'ADMIN', 'PM']
+	JWT: 'dev-jwt-key'
 }

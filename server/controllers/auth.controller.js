@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken')
 const db = require('../keys/db.config')
 const keys = require('../keys')
 const User = db.user
-const Role = db.role
 
 module.exports.login = async (req, res) => {
 	const candidate = await User.findOne(
@@ -20,7 +19,7 @@ module.exports.login = async (req, res) => {
 				const token = jwt.sign({
 					email: candidate.email,
 					userId: candidate.id
-				}, keys.JWT, { expiresIn: 60 * 60 * 2 })
+				}, keys.JWT, { expiresIn: 60 * 60 * 24 })
 				res.status(200).json({ token })
 			} catch (e) {
 				res.status(500).json(e)
@@ -56,7 +55,7 @@ module.exports.createUser = async (req, res) => {
 				username: req.body.username,
 				email: req.body.email,
 				password: bcrypt.hashSync(req.body.password, salt),
-				role: 'user'//req.body.role,
+				role: 'USER'//req.body.role,
 			})
 			res.status(201).json(user)
 		} catch (e) {
