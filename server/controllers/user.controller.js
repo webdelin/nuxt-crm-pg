@@ -1,6 +1,6 @@
 const fs = require('fs')
 const db = require('../keys/db.config')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const User = db.user
 
 module.exports.createUser = async (req, res) => {
